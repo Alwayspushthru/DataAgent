@@ -410,6 +410,7 @@ const providerOptions = [
 	{ title: 'Qwen', value: 'qwen' },
 	{ title: 'OpenAI', value: 'openai' },
 	{ title: 'Siliconflow', value: 'siliconflow' },
+	{ title: '智谱 (Zhipu)', value: 'zhipu' },
 	{ title: 'Custom Provider', value: 'custom' },
 ];
 
@@ -418,7 +419,13 @@ const providerBaseUrlMap: Record<string, string> = {
 	qwen: 'https://dashscope.aliyuncs.com/compatible-mode',
 	openai: 'https://api.openai.com',
 	siliconflow: 'https://api.siliconflow.cn',
+	zhipu: 'https://open.bigmodel.cn/api/paas/v4',
 	custom: '',
+};
+
+/** 部分厂商的嵌入端点不在 /v1 下，切换供应商时带出默认路径 */
+const providerEmbeddingsPathMap: Record<string, string> = {
+	zhipu: '/embeddings',
 };
 
 const loading = ref(false);
@@ -490,7 +497,7 @@ const resetForm = (type: ModelType) => {
 	form.temperature = 0;
 	form.maxTokens = 2000;
 	form.completionsPath = '';
-	form.embeddingsPath = '';
+	form.embeddingsPath = providerEmbeddingsPathMap[form.provider] || '';
 	form.isActive = false;
 };
 
@@ -652,6 +659,9 @@ const handleTestConnection = async (model: ModelConfig) => {
 const watchProviderChange = (value: string) => {
 	if (value && value !== 'custom') {
 		form.baseUrl = providerBaseUrlMap[value] || '';
+		if (form.modelType === 'EMBEDDING') {
+			form.embeddingsPath = providerEmbeddingsPathMap[value] || '';
+		}
 	}
 };
 

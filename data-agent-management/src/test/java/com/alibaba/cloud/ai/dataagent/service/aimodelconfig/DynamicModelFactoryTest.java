@@ -47,6 +47,8 @@ class DynamicModelFactoryTest {
 
 	private String providerBaseUrl;
 
+	private boolean chunkedResponse;
+
 	@BeforeEach
 	void setUp() throws IOException {
 		dynamicModelFactory = new DynamicModelFactory();
@@ -83,6 +85,18 @@ class DynamicModelFactoryTest {
 		assertTrue(request.body().contains("\"temperature\":0.7"));
 		assertTrue(request.body().contains("\"max_tokens\":2000"));
 		assertTrue(request.body().contains("Hello"));
+	}
+
+	@Test
+	void createChatModel_chunkedResponse_readsCompleteJson() {
+		chunkedResponse = true;
+		ModelConfigDTO config = ModelConfigDTO.builder()
+			.provider("custom")
+			.baseUrl(providerBaseUrl)
+			.modelName("test-model")
+			.build();
+
+		assertEquals("provider response", dynamicModelFactory.createChatModel(config).call("Hello"));
 	}
 
 	@Test
@@ -358,8 +372,15 @@ class DynamicModelFactoryTest {
 		String response = requestPath.contains("embeddings") ? embeddingResponse() : chatResponse();
 		byte[] responseBytes = response.getBytes(StandardCharsets.UTF_8);
 		exchange.getResponseHeaders().add("Content-Type", "application/json");
-		exchange.sendResponseHeaders(200, responseBytes.length);
-		exchange.getResponseBody().write(responseBytes);
+		exchange.sendResponseHeaders(200, chunkedResponse ? 0 : responseBytes.length);
+		if (chunkedResponse) {
+			exchange.getResponseBody().write(responseBytes, 0, 1);
+			exchange.getResponseBody().flush();
+			exchange.getResponseBody().write(responseBytes, 1, responseBytes.length - 1);
+		}
+		else {
+			exchange.getResponseBody().write(responseBytes);
+		}
 		exchange.close();
 	}
 

@@ -34,6 +34,7 @@ import org.springframework.ai.openai.OpenAiEmbeddingOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.retry.RetryUtils;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -117,7 +118,8 @@ public class DynamicModelFactory {
 
 	private RestClient.Builder getProxiedRestClientBuilder(ModelConfigDTO config) {
 		if (config.getProxyEnabled() == null || !config.getProxyEnabled()) {
-			return RestClient.builder();
+			// Pin the direct transport instead of selecting it from transitive HTTP dependencies.
+			return RestClient.builder().requestFactory(new JdkClientHttpRequestFactory());
 		}
 
 		// 打印同步代理日志
