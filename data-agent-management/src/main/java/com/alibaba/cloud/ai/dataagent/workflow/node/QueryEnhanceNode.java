@@ -31,6 +31,11 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import reactor.util.retry.Retry;
+import com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture;
 
 import static com.alibaba.cloud.ai.dataagent.constant.Constant.*;
 
@@ -43,8 +48,6 @@ import static com.alibaba.cloud.ai.dataagent.constant.Constant.*;
 public class QueryEnhanceNode implements NodeAction {
 
 	private final LlmService llmService;
-
-	private final JsonParseUtil jsonParseUtil;
 
 	@Override
 	public Map<String, Object> apply(OverAllState state) throws Exception {
@@ -61,7 +64,36 @@ public class QueryEnhanceNode implements NodeAction {
 		log.debug("Built query enhance prompt as follows \n {} \n", prompt);
 
 		// 调用LLM进行查询处理
-		Flux<ChatResponse> responseFlux = llmService.callUser(prompt);
+		AtomicInteger attempt = new AtomicInteger();
+		Flux<ChatResponse> responseFlux = Flux.defer(() -> {
+			int currentAttempt = attempt.incrementAndGet();
+			int budget = currentAttempt == 1 ? 4096 : 8192;
+			return llmService.callUser(prompt, budget).collectList().flatMapMany(responses -> {
+				String raw = responses.stream().map(ChatResponseUtil::getText).collect(java.util.stream.Collectors.joining());
+				List<String> reasons = responses.stream().flatMap(r -> r.getResults().stream())
+					.map(r -> r.getMetadata().getFinishReason()).filter(Objects::nonNull).filter(r -> !r.isBlank()).distinct().toList();
+				EvaluationCapture.queryEnhance(state.value(TRACE_THREAD_ID).orElse(null), currentAttempt, raw, reasons, budget);
+				try {
+					if (reasons.stream().anyMatch(r -> "length".equalsIgnoreCase(r))) {
+						throw new IllegalArgumentException("QueryEnhance TRUNCATED_OUTPUT: model reached output limit");
+					}
+					parseQueryEnhance(raw);
+				}
+				catch (IllegalArgumentException ex) {
+					// Invalid attempts never reach FluxUtil; retain their reported evaluation usage.
+					responses.forEach(r -> {
+						var usage = r.getMetadata().getUsage();
+						if (usage != null && (usage.getPromptTokens() > 0 || usage.getCompletionTokens() > 0)) {
+							EvaluationCapture.tokens(state.value(TRACE_THREAD_ID).orElse(null),
+									usage.getPromptTokens(), usage.getCompletionTokens());
+						}
+					});
+					throw ex;
+				}
+				return Flux.fromIterable(responses);
+			});
+		}).retryWhen(Retry.max(1).filter(IllegalArgumentException.class::isInstance)
+			.onRetryExhaustedThrow((spec, signal) -> signal.failure()));
 
 		Flux<GraphResponse<StreamingOutput>> generator = FluxUtil.createStreamingGenerator(this.getClass(), state,
 				responseFlux,
@@ -75,24 +107,37 @@ public class QueryEnhanceNode implements NodeAction {
 	}
 
 	private Map<String, Object> handleQueryEnhance(String llmOutput) {
-		// 获取处理结果
-		String enhanceResult = MarkdownParserUtil.extractRawText(llmOutput.trim());
-		log.debug("Query enhance result: {}", enhanceResult);
+		return Map.of(QUERY_ENHANCE_NODE_OUTPUT, parseQueryEnhance(llmOutput));
+	}
 
-		// 解析处理结果，转成 QueryProcessOutputDTO
-		QueryEnhanceOutputDTO queryEnhanceOutputDTO = null;
+	private QueryEnhanceOutputDTO parseQueryEnhance(String llmOutput) {
+		String text = llmOutput.trim();
+		int thinkEnd = text.lastIndexOf("</think>");
+		if (thinkEnd >= 0) {
+			text = text.substring(thinkEnd + "</think>".length()).trim();
+		}
+		String result = MarkdownParserUtil.extractRawText(text);
+		if (result == null || result.isBlank()) {
+			throw new IllegalArgumentException("QueryEnhance returned empty content");
+		}
+		// Retry the full task with its evidence, rather than repairing JSON without business context.
+		QueryEnhanceOutputDTO output;
 		try {
-			queryEnhanceOutputDTO = jsonParseUtil.tryConvertToObject(enhanceResult, QueryEnhanceOutputDTO.class);
-			log.debug("Successfully parsed query enhance result: {}", queryEnhanceOutputDTO);
+			output = JsonUtil.getObjectMapper().readValue(result, QueryEnhanceOutputDTO.class);
 		}
-		catch (Exception e) {
-			log.error("Failed to parse query enhance result", e);
+		catch (Exception ex) {
+			throw new IllegalArgumentException("QueryEnhance returned invalid JSON", ex);
 		}
-
-		if (queryEnhanceOutputDTO == null)
-			return Map.of();
-		// 返回处理结果
-		return Map.of(QUERY_ENHANCE_NODE_OUTPUT, queryEnhanceOutputDTO);
+		if (output == null || output.getCanonicalQuery() == null || output.getCanonicalQuery().isBlank()) {
+			throw new IllegalArgumentException("QueryEnhance missing canonical_query");
+		}
+		output.setCanonicalQuery(output.getCanonicalQuery().trim());
+		List<String> expanded = output.getExpandedQueries() == null ? List.of()
+				: output.getExpandedQueries().stream().filter(Objects::nonNull).map(String::trim)
+					.filter(q -> !q.isEmpty()).distinct().toList();
+		// Retain legacy optional values without making them a routing prerequisite.
+		output.setExpandedQueries(expanded);
+		return output;
 	}
 
 }

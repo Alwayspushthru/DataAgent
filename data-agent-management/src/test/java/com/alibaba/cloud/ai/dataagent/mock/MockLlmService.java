@@ -59,6 +59,11 @@ public class MockLlmService implements LlmService {
 	}
 
 	@Override
+	public Flux<ChatResponse> callUser(String user, int maxTokens) {
+		return callUser(user);
+	}
+
+	@Override
 	public Flux<ChatResponse> call(String system, String user) {
 		String response = findResponse(system + " " + user);
 		return Flux.just(ChatResponseUtil.createPureResponse(response));

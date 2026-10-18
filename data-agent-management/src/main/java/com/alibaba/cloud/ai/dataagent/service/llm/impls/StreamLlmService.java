@@ -63,6 +63,14 @@ public class StreamLlmService implements LlmService {
 	}
 
 	@Override
+	public Flux<ChatResponse> callUser(String user, int maxTokens) {
+		org.springframework.util.Assert.isTrue(maxTokens > 0, "maxTokens must be positive");
+		return registry.getChatClient().prompt().user(user)
+			.options(org.springframework.ai.openai.OpenAiChatOptions.builder().maxTokens(maxTokens).build())
+			.stream().chatResponse();
+	}
+
+	@Override
 	public Flux<ChatResponse> callUser(String user, Class<?> outputType) {
 		StructuredOutputValidationAdvisor advisor = StructuredOutputValidationAdvisor.builder()
 			.outputType(outputType)

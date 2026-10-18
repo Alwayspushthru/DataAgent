@@ -302,4 +302,17 @@ class EvidenceRecallNodeTest {
 		assertTrue(execution.finalResult().get(EVIDENCE).toString().contains("GMV=总成交额"));
 	}
 
+
+    @Test
+    void knowledgeOffKeepsRewriteButNeverRetrievesOrReusesEvidence() throws Exception {
+        OverAllState state=createTestState();setupBasicState(state);
+        state.registerKeyAndStrategy(BUSINESS_KNOWLEDGE_ENABLED,new ReplaceStrategy());
+        state.updateState(Map.of(BUSINESS_KNOWLEDGE_ENABLED,false,EVIDENCE,"stale private definition"));
+        when(llmService.callUser(anyString())).thenReturn(Flux.just(ChatResponseUtil.createPureResponse(LLM_REWRITE_RESPONSE)));
+        NodeExecution execution=execute(evidenceRecallNode.apply(state),EVIDENCE);
+        assertEquals("无",execution.finalResult().get(EVIDENCE));
+        verify(llmService).callUser(anyString());
+        verifyNoInteractions(vectorStoreService,agentKnowledgeMapper);
+    }
+
 }

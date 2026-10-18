@@ -21,6 +21,8 @@ public enum GraphEventType {
 
 	FINAL_ANSWER,
 
+	EVALUATION_RESULT,
+
 	HUMAN_FEEDBACK_REQUIRED
 
 }

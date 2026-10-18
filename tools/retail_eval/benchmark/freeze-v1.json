@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "frozen_at": "2026-10-18T00:03:46.767756",
+  "database": "retail_eval_v1",
+  "knowledge_version": "1.0.0",
+  "files_sha256": {
+    "tools/retail_eval/benchmark/inventory-v1.json": "0b6fd4a6947efc191b245aae35d33d24dd9e1b22bfcbeee2d4b13c354d699e83",
+    "tools/retail_eval/benchmark/dev-题目-v1.md": "a3cbd5bee9359976211db575cc23103e7678d8919212aecb1d1a66e3aa3aa93e",
+    "tools/retail_eval/benchmark/README.md": "920b9ce11705df6f1b3e49886b1ec2e5ec3a32748d8ddd92272e6f467ff2b4eb",
+    "tools/retail_eval/benchmark/test-题目-v1.md": "7c977a37b2213098708efb162c1526fffca4d6d6db3e8317f7e26ac60b1383bd",
+    "tools/retail_eval/benchmark/dev-questions-v1.jsonl": "b6f9e4d2e554bffb5b30a1bd4b1de2693ee1e99c7d454ad42641abb63108e0bf",
+    "tools/retail_eval/benchmark/test-questions-v1.jsonl": "fc356883b648205f604784eba4ba2b018444a22ba5648799f52a4379f728161d",
+    "tools/retail_eval/benchmark/scoring-rules-v1.json": "4e3d72579a63de767ea70ff389d50c8c6bb9a1b99651bcacb69f3feb33cf435c",
+    "tools/retail_eval/benchmark.py": "5655d75d16261f2bf7d3ec0e94738e5452d09d96324875ab915ae935b971229f",
+    "tools/retail_eval/grade_benchmark.py": "6540a5042763480ed0c366422dfbf6e39518ec80a213f60885614a5e6a396c93",
+    "tools/retail_eval/test_benchmark.py": "fbfb3b2bdd65338293f85406e94945bb8a533d4619330787cd07e484895ed212",
+    "tools/retail_eval/knowledge/contract-v1.json": "7878c20de63cef93ee71e189aaa5abcb30c77190c3fc91639bf5eaef219f0218",
+    "tools/retail_eval/knowledge/freeze-v1.json": "5cd6e6048d66caa2984359c27242c9720cc7e15d49af4b92d8aab94965129485",
+    ".vscode/retail-eval/benchmark-v1/dev-answers-v1.jsonl": "5b7c15371cb1533d06c23b24592d7412859187fed37076347aa4c7664d780bf7",
+    ".vscode/retail-eval/benchmark-v1/dev-参考与评分-v1.md": "340ad0c3df256fa3a318a8e1799e23c5ca5be4dc2e4e6542d84e21fbafd1e585",
+    ".vscode/retail-eval/benchmark-v1/dev-review-template-v1.jsonl": "570c51881ddb6585330b911d5a1868b5cb5b5f24d212cc1d90bdf6f8def48b6f",
+    ".vscode/retail-eval/benchmark-v1/test-answers-v1.jsonl": "4d9450b861651860910bb6124895b88a9fa6d733f0d48869aaa935e767e3fec7",
+    ".vscode/retail-eval/benchmark-v1/test-参考与评分-v1.md": "9d1de3d3b2eaa47372ead9ea89a4c2e795bf7e99d08bf5a096e6e6a0ca21b135",
+    ".vscode/retail-eval/benchmark-v1/test-review-template-v1.jsonl": "0406a4e8febe404d2ff204a2cca18b10a3bb8481b12c5cccf264220db9377714"
+  }
+}

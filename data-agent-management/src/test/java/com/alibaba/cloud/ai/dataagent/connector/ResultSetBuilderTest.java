@@ -84,7 +84,7 @@ class ResultSetBuilderTest {
 
 		ResultSetBO result = ResultSetBuilder.buildFrom(rs, "public");
 
-		assertEquals("", result.getData().get(0).get("col"));
+		assertNull(result.getData().get(0).get("col"));
 	}
 
 	@Test

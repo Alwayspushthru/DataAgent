@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "test_size": 500,
+  "business_subset_size": 400,
+  "development_size": 50,
+  "business_categories": ["scope", "denominator", "time", "grain"],
+  "control_category": "basic",
+  "result_scoring": {
+    "pass": "All required columns and rows match the reference under per-column comparison rules.",
+    "sql_text_equality_required": false,
+    "column_order": "May reorder columns using declared names; missing, duplicate or unexpected names fail.",
+    "row_order": "Enforced for daily/monthly/grouped/ranked questions; scalar questions have one row.",
+    "duplicates": "Preserve multiplicity; do not turn rows into a set.",
+    "null": "JSON null only; distinct from zero, empty string and text NULL.",
+    "count_and_amount_tolerance": "0: exact numeric equality, no display rounding.",
+    "division_tolerance": "absolute 0.000001, fractions not percentages; no automatic x100 conversion.",
+    "nonfinite_numbers": "Fail NaN and Infinity.",
+    "failures": "Timeout, execution failure, missing result or wrong refusal count as failures in the fixed denominator.",
+    "row_cap": "Reference results <=1000 rows. Do not truncate submitted results to manufacture a match."
+  },
+  "business_scoring": {
+    "pass": "All necessary R01..Rn rules pass against the actual executed SQL and execution trace.",
+    "rule_ids": "One-based positions in each private case.required_rules.",
+    "evidence": "Every rule needs a boolean verdict and concrete SQL/trace evidence; reviewer and executed_sql_evidence required.",
+    "reviewer": "Human review for verified accuracy. LLM Judge alone is provisional and must be labeled.",
+    "unreviewed": "Pending, not silently passed or discarded; withhold aggregate verified business accuracy until all 400 are resolved.",
+    "execution_failures": "Count as business failures; fixed denominator remains 400.",
+    "important": "Correct numeric output does not prove correct business semantics; value coincidence must not pass a wrong formula."
+  },
+  "reporting": {
+    "A": "OFF business-correct / 400",
+    "B": "ON business-correct / 400",
+    "C": "ON result-correct / 500",
+    "delta": "B minus A in percentage points",
+    "also_report": ["OFF result accuracy", "category-level results", "wrong-to-right/right-to-wrong pairs", "review coverage", "token and latency", "counts and sample sizes"],
+    "template_dependence": "25 formal families with 20 parameter variants each. Use family-clustered uncertainty if reporting intervals; not 500 independent business scenarios."
+  },
+  "experiment": {
+    "agent_input": ["question", "answer_schema"],
+    "hidden_from_agent": ["private_answers", "reference_sql", "expected_rows", "required_rules", "required_knowledge_ids", "mutation_probes"],
+    "off": "No v1 business Evidence; same physical Schema, model, retry budget and pipeline.",
+    "on": "Retrieve from frozen knowledge-v1 package; do not attach gold definitions per question.",
+    "isolation": "New conversation per question, no dev-to-test context/cache leakage.",
+    "test_use": "Freeze before model tuning; changes to questions or scoring require a new version and rerunning both groups."
+  }
+}

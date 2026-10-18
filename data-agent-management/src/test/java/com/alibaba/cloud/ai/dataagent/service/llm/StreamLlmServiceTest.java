@@ -80,6 +80,18 @@ class StreamLlmServiceTest {
 	}
 
 	@Test
+	void callUser_localBudget_isPassedToRequestOptions() {
+		stubPrompt();
+		when(requestSpec.user("Hello")).thenReturn(requestSpec);
+		when(requestSpec.options(any(org.springframework.ai.chat.prompt.ChatOptions.class))).thenReturn(requestSpec);
+		stubStreamingResponse();
+		StepVerifier.create(streamLlmService.callUser("Hello", 4096)).expectNext(mockResponse).verifyComplete();
+		var options = org.mockito.ArgumentCaptor.forClass(org.springframework.ai.chat.prompt.ChatOptions.class);
+		verify(requestSpec).options(options.capture());
+		org.junit.jupiter.api.Assertions.assertEquals(4096, options.getValue().getMaxTokens());
+	}
+
+	@Test
 	void callUser_validPrompt_returnsStreamFlux() {
 		stubPrompt();
 		when(requestSpec.user("Hello")).thenReturn(requestSpec);

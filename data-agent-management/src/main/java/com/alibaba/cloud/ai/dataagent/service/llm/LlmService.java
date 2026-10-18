@@ -33,6 +33,9 @@ public interface LlmService {
 
 	Flux<ChatResponse> callUser(String user);
 
+	/** Request-local output budget; leaves the shared model configuration unchanged. */
+	Flux<ChatResponse> callUser(String user, int maxTokens);
+
 	/**
 	 * Call the model with Spring AI's structured-output validation advisor. The advisor
 	 * validates the response against the schema derived from {@code outputType} and asks

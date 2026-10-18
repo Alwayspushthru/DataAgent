@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+
+reports/*
+!reports/development-full-v2-summary-2026-10-18.md

@@ -16,6 +16,7 @@
 package com.alibaba.cloud.ai.dataagent.service.graph;
 
 import com.alibaba.cloud.ai.dataagent.service.langfuse.LangfuseService;
+import com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture;
 import com.alibaba.cloud.ai.dataagent.service.langfuse.NodeTracingLifecycleListener;
 import com.alibaba.cloud.ai.dataagent.enums.GraphEventType;
 import com.alibaba.cloud.ai.dataagent.enums.TextType;
@@ -110,6 +111,9 @@ public class GraphServiceImpl implements GraphService {
 			graphRequest.setConversationId(graphRequest.getThreadId());
 		}
 		String threadId = graphRequest.getThreadId();
+		if (graphRequest.isEvaluation() && !resuming) {
+			EvaluationCapture.start(threadId, graphRequest.isBusinessKnowledgeEnabled());
+		}
 		// 创建或获取 StreamContext
 		StreamContext context = streamContextMap.computeIfAbsent(threadId, k -> new StreamContext());
 		context.setConversationId(graphRequest.getConversationId());
@@ -132,6 +136,7 @@ public class GraphServiceImpl implements GraphService {
 			return;
 		}
 		log.info("Stopping stream processing for threadId: {}", threadId);
+		EvaluationCapture.discard(threadId);
 		StreamContext context = streamContextMap.remove(threadId);
 		multiTurnContextManager.discardPending(context != null ? context.getConversationId() : threadId);
 		if (context != null) {
@@ -191,7 +196,8 @@ public class GraphServiceImpl implements GraphService {
 		multiTurnContextManager.beginTurn(conversationId, query);
 		Flux<NodeOutput> nodeOutputFlux = compiledGraph.stream(
 				Map.of(IS_ONLY_NL2SQL, nl2sqlOnly, INPUT_KEY, query, AGENT_ID, agentId, HUMAN_REVIEW_ENABLED,
-						humanReviewEnabled, MULTI_TURN_CONTEXT, multiTurnContext, TRACE_THREAD_ID, threadId),
+						humanReviewEnabled, MULTI_TURN_CONTEXT, multiTurnContext, TRACE_THREAD_ID, threadId,
+						BUSINESS_KNOWLEDGE_ENABLED, graphRequest.isBusinessKnowledgeEnabled()),
 				RunnableConfig.builder().threadId(threadId).build());
 		subscribeToFlux(context, nodeOutputFlux, graphRequest, agentId, threadId);
 	}
@@ -294,6 +300,7 @@ public class GraphServiceImpl implements GraphService {
 			}
 			// 清理 listener 侧的 attempt 计数器与仍挂着的节点 span，避免无界增长。
 			nodeTracingLifecycleListener.finishThread(threadId);
+			emitEvaluation(context, request, "error", error.getMessage());
 			if (context.getSink() != null && context.getSink().currentSubscriberCount() > 0) {
 				context.getSink()
 					.tryEmitNext(ServerSentEvent
@@ -332,6 +339,7 @@ public class GraphServiceImpl implements GraphService {
 			if (!awaitingHumanFeedback) {
 				nodeTracingLifecycleListener.finishThread(threadId);
 			}
+			emitEvaluation(context, request, "completed", null);
 			if (context.getSink() != null && context.getSink().currentSubscriberCount() > 0) {
 				if (awaitingHumanFeedback) {
 					context.getSink()
@@ -451,6 +459,17 @@ public class GraphServiceImpl implements GraphService {
 		catch (Exception e) {
 			log.warn("Unable to inspect checkpoint for threadId: {}", request.getThreadId(), e);
 			return false;
+		}
+	}
+
+
+	private void emitEvaluation(StreamContext context, GraphRequest request, String status, String error) {
+		if (!request.isEvaluation()) return;
+		Map<String,Object> capture = EvaluationCapture.finish(request.getThreadId(), status, error);
+		if (context.getSink()!=null && !capture.isEmpty()) {
+			context.getSink().tryEmitNext(ServerSentEvent.builder(GraphNodeResponse.builder()
+				.agentId(request.getAgentId()).threadId(request.getThreadId())
+				.eventType(GraphEventType.EVALUATION_RESULT).evaluation(capture).build()).build());
 		}
 	}
 

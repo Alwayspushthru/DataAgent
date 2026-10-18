@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.alibaba.cloud.ai.dataagent.constant.Constant.*;
-import static com.alibaba.cloud.ai.graph.StateGraph.END;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -56,18 +55,18 @@ class QueryEnhanceDispatcherTest {
 		dto.setExpandedQueries(List.of("query"));
 		state.updateState(Map.of(QUERY_ENHANCE_NODE_OUTPUT, dto));
 
-		assertEquals(END, dispatcher.apply(state));
+		assertThrows(IllegalStateException.class, () -> dispatcher.apply(state));
 	}
 
 	@Test
-	void apply_emptyExpandedQueries_routesToEnd() throws Exception {
+	void apply_emptyExpandedQueries_routesToSchemaRecall() throws Exception {
 		OverAllState state = new OverAllState();
 		QueryEnhanceOutputDTO dto = new QueryEnhanceOutputDTO();
 		dto.setCanonicalQuery("valid query");
 		dto.setExpandedQueries(new ArrayList<>());
 		state.updateState(Map.of(QUERY_ENHANCE_NODE_OUTPUT, dto));
 
-		assertEquals(END, dispatcher.apply(state));
+		assertEquals(SCHEMA_RECALL_NODE, dispatcher.apply(state));
 	}
 
 	@Test
@@ -78,7 +77,7 @@ class QueryEnhanceDispatcherTest {
 		dto.setExpandedQueries(List.of("query"));
 		state.updateState(Map.of(QUERY_ENHANCE_NODE_OUTPUT, dto));
 
-		assertEquals(END, dispatcher.apply(state));
+		assertThrows(IllegalStateException.class, () -> dispatcher.apply(state));
 	}
 
 	@Test

@@ -88,7 +88,12 @@ public class EvidenceRecallNode implements NodeAction {
 				Flux.just(ChatResponseUtil.createPureResponse(TextType.JSON.getEndSign()),
 						ChatResponseUtil.createResponse("\n查询重写完成！")),
 				result -> {
-					resultMap.putAll(getEvidences(result, agentId, evidenceDisplaySink));
+					if (state.value(BUSINESS_KNOWLEDGE_ENABLED, true)) {
+						resultMap.putAll(getEvidences(result, agentId, evidenceDisplaySink));
+					} else {
+						resultMap.put(EVIDENCE, "无");
+						evidenceDisplaySink.tryEmitComplete();
+					}
 					return resultMap;
 				});
 

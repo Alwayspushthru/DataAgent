@@ -1,0 +1,542 @@
+{
+  "version": "1.0.0",
+  "status": "frozen_scenario_contract",
+  "database": "retail_eval_v1",
+  "snapshot_source_sha256": "bcbe73b35f5b7babf197fb0cb983a11f5d9ff929078d4aa53d171b1f2df2e980",
+  "snapshot_canonical_sha256": "6dc9917de13ae7b2428defd51d51faf0def8931aeb3d137530e865840aa1733f",
+  "basis": [
+    {
+      "type": "source_fact",
+      "reference": "https://doi.org/10.24432/C5CG6D",
+      "supports": "变量、GBP单位、C前缀取消；不证明指标公式。"
+    },
+    {
+      "type": "verified_snapshot",
+      "reference": "../reports/acceptance-2026-10-17.json",
+      "supports": "数据规模、字段、缺失与日期覆盖。"
+    },
+    {
+      "type": "scenario_policy",
+      "reference": "本版本合同",
+      "supports": "销售过滤、期间内复购、分母与空值等自主制定的评测约定，不宣称企业通用标准。"
+    }
+  ],
+  "global_rules": [
+    "本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。",
+    "数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。",
+    "有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。",
+    "金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。"
+  ],
+  "scopes": {
+    "raw": "期间内所有明细，不按取消标记、数量、单价、客户或描述缺失过滤；不可称成交或净收入。",
+    "sales": "期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。",
+    "known_sales": "期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。",
+    "cancel": "期间内 is_cancelled=1 的全部明细，不按 quantity 或 unit_price 正负再过滤。"
+  },
+  "fields": {
+    "line_id": "规范化明细主键，仅用于行追溯。",
+    "source_sheet": "原始工作表名。",
+    "source_row": "原始Excel行号，含表头偏移。",
+    "invoice_no": "原始发票号，字符串；C前缀标记取消。",
+    "stock_code": "商品编码，字符串，商品唯一识别键。",
+    "description": "该行商品描述，可缺失、可变化，不作商品唯一键。",
+    "quantity": "原始有符号数量，可为零或负。",
+    "invoice_date": "无时区DATETIME，原始交易明细时间。",
+    "unit_price": "有符号原始单价，GBP，DECIMAL(20,6)。",
+    "customer_id": "原始客户标识，可NULL或空白，不能补造。",
+    "country": "源记录交易国家，可缺失。",
+    "is_cancelled": "发票号以C（忽略大小写）开头则1，否则0。",
+    "line_amount": "quantity*unit_price，GBP，DECIMAL(24,6)。"
+  },
+  "ambiguous_terms": [
+    "客单价",
+    "成交额",
+    "GMV",
+    "复购率",
+    "净销售额",
+    "退款额",
+    "退货率"
+  ],
+  "metrics": [
+    {
+      "id": "M01",
+      "name": "原始明细数",
+      "aliases": [
+        "源明细数"
+      ],
+      "scope": "raw",
+      "definition": "全部源交易记录数，重复内容的源行仍分别计数。",
+      "formula": "COUNT(*)",
+      "unit": "行",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "line_id"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M02",
+      "name": "原始有符号金额",
+      "aliases": [
+        "原始账面金额"
+      ],
+      "scope": "raw",
+      "definition": "所有源行金额之和，允许为负；不推断退款归属或真实净收入。",
+      "formula": "SUM(line_amount)",
+      "unit": "GBP",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "line_amount"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M03",
+      "name": "有效销售明细数",
+      "aliases": [
+        "销售明细数"
+      ],
+      "scope": "sales",
+      "definition": "有效销售范围内的明细行数。",
+      "formula": "COUNT(*)",
+      "unit": "行",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "line_id"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M04",
+      "name": "销售额",
+      "aliases": [
+        "有效销售额",
+        "销售金额"
+      ],
+      "scope": "sales",
+      "definition": "有效销售明细的金额之和，包含无法归属客户的交易，不减去取消记录。",
+      "formula": "SUM(line_amount)",
+      "unit": "GBP",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "line_amount"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M05",
+      "name": "销售数量",
+      "aliases": [
+        "销量"
+      ],
+      "scope": "sales",
+      "definition": "有效销售范围内的数量之和，不对源行去重。",
+      "formula": "SUM(quantity)",
+      "unit": "件",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M06",
+      "name": "销售发票数",
+      "aliases": [
+        "有效订单数",
+        "销售订单数"
+      ],
+      "scope": "sales",
+      "definition": "期间有至少一条有效销售明细的发票号去重数。",
+      "formula": "COUNT(DISTINCT invoice_no)",
+      "unit": "张",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "invoice_no"
+      ],
+      "rules": [
+        "以筛选后的明细计算，不用 invoices 全生命周期 total_amount；同发票多行只计一次。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M07",
+      "name": "购买客户数",
+      "aliases": [
+        "购买用户数",
+        "成交客户数"
+      ],
+      "scope": "known_sales",
+      "definition": "期间有效销售中非空客户 ID 的去重数量。",
+      "formula": "COUNT(DISTINCT customer_id)",
+      "unit": "人",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M08",
+      "name": "已识别客户销售额",
+      "aliases": [
+        "可归属客户销售额"
+      ],
+      "scope": "known_sales",
+      "definition": "有效销售中具有已知客户 ID 的金额之和。",
+      "formula": "SUM(line_amount)",
+      "unit": "GBP",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "line_amount"
+      ],
+      "rules": [
+        "遵守共同时间与范围规则。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M09",
+      "name": "平均订单金额",
+      "aliases": [
+        "每张销售发票平均金额"
+      ],
+      "scope": "sales",
+      "definition": "销售额除以销售发票数，包含匿名销售。",
+      "formula": "M04 / NULLIF(M06, 0)",
+      "unit": "GBP/张",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "invoice_no",
+        "line_amount"
+      ],
+      "rules": [
+        "不得使用 AVG(line_amount)，也不得把原始发票汇总金额当作期间有效销售金额。"
+      ],
+      "dependencies": [
+        "M04",
+        "M06"
+      ]
+    },
+    {
+      "id": "M10",
+      "name": "每购买客户平均销售额",
+      "aliases": [
+        "人均购买金额"
+      ],
+      "scope": "known_sales",
+      "definition": "已识别客户销售额除以购买客户数；分子和分母使用相同客户范围。",
+      "formula": "M08 / NULLIF(M07, 0)",
+      "unit": "GBP/人",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "line_amount"
+      ],
+      "rules": [
+        "不能用包含匿名客户的总销售额除以已知客户数。"
+      ],
+      "dependencies": [
+        "M08",
+        "M07"
+      ]
+    },
+    {
+      "id": "M11",
+      "name": "期间复购客户数",
+      "aliases": [
+        "期间重复购买客户数"
+      ],
+      "scope": "known_sales",
+      "definition": "同一统计期间内，有效销售发票号去重数至少为 2 的已知客户数。",
+      "formula": "COUNT(customer_id WHERE COUNT(DISTINCT invoice_no) >= 2)",
+      "unit": "人",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "invoice_no"
+      ],
+      "rules": [
+        "按客户分组后计算不同发票数，同一张发票多条明细不构成复购。",
+        "只计算当前期间；不是历史购买者在本期再次购买，也不是留存率。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M12",
+      "name": "期间复购客户占比",
+      "aliases": [
+        "期间复购率"
+      ],
+      "scope": "known_sales",
+      "definition": "期间复购客户数除以期间购买客户数。",
+      "formula": "M11 / NULLIF(M07, 0)",
+      "unit": "ratio [0,1]",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "invoice_no"
+      ],
+      "rules": [
+        "返回比值；展示百分数时乘100，不对分母使用发票数。"
+      ],
+      "dependencies": [
+        "M11",
+        "M07"
+      ]
+    },
+    {
+      "id": "M13",
+      "name": "售出商品种数",
+      "aliases": [
+        "售出SKU数"
+      ],
+      "scope": "sales",
+      "definition": "有效销售范围内商品编码的去重数。",
+      "formula": "COUNT(DISTINCT stock_code)",
+      "unit": "种",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "stock_code"
+      ],
+      "rules": [
+        "以 stock_code 识别商品，不能按可能变化的 description 去重。",
+        "本版本不剔除特殊费用编码，因此该值表示售出源商品编码种数，不保证全部是实物SKU。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M14",
+      "name": "加权销售单价",
+      "aliases": [
+        "每件平均销售金额"
+      ],
+      "scope": "sales",
+      "definition": "销售额除以销售数量，按数量加权。",
+      "formula": "M04 / NULLIF(M05, 0)",
+      "unit": "GBP/件",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "line_amount"
+      ],
+      "rules": [
+        "不能使用 AVG(unit_price)。",
+        "因特殊编码未排除，默认仅作相同定义下的比较，不宣称具有跨商品经济解释。"
+      ],
+      "dependencies": [
+        "M04",
+        "M05"
+      ]
+    },
+    {
+      "id": "M15",
+      "name": "取消发票数",
+      "aliases": [
+        "取消单据数"
+      ],
+      "scope": "cancel",
+      "definition": "期间内有取消明细的 C 前缀发票号去重数。",
+      "formula": "COUNT(DISTINCT invoice_no)",
+      "unit": "张",
+      "empty": "0",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "invoice_no"
+      ],
+      "rules": [
+        "仅表示取消单据，不等于已匹配原订单的退款订单数；取消编号不能直接与原销售编号关联。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M16",
+      "name": "取消记录有符号金额",
+      "aliases": [
+        "取消单据账面金额"
+      ],
+      "scope": "cancel",
+      "definition": "取消范围内的 line_amount 之和，保留正负号。",
+      "formula": "SUM(line_amount)",
+      "unit": "GBP",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "line_amount"
+      ],
+      "rules": [
+        "不取绝对值，不称已支付退款额，不匹配原销售。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M17",
+      "name": "未识别客户销售额",
+      "aliases": [
+        "匿名销售金额"
+      ],
+      "scope": "sales",
+      "definition": "有效销售中客户 ID 为空或空白的金额之和。",
+      "formula": "SUM(line_amount WHERE customer_id IS NULL OR TRIM(customer_id)='')",
+      "unit": "GBP",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "line_amount"
+      ],
+      "rules": [
+        "不为客户缺失行创建虚构客户，不用于客户去重或复购指标。"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "M18",
+      "name": "已识别客户销售额占比",
+      "aliases": [
+        "客户金额可归属率"
+      ],
+      "scope": "sales",
+      "definition": "已识别客户销售额除以全部销售额；存在销售但没有已知客户时为0。",
+      "formula": "COALESCE(M08, 0) / NULLIF(M04, 0)",
+      "unit": "ratio [0,1]",
+      "empty": "NULL",
+      "required_fields": [
+        "invoice_date",
+        "is_cancelled",
+        "quantity",
+        "unit_price",
+        "customer_id",
+        "line_amount"
+      ],
+      "rules": [
+        "仅该分子在总销售额存在时允许将无匹配金额视为0；不得普遍把空 SUM 转0。"
+      ],
+      "dependencies": [
+        "M08",
+        "M04"
+      ]
+    }
+  ],
+  "policies": {
+    "P01": {
+      "name": "时间与完整月份规则",
+      "aliases": [
+        "时间边界",
+        "自然月口径"
+      ],
+      "definition": "所有期间使用 transaction_lines.invoice_date >= start AND invoice_date < end，按源端无时区本地墙上时间解释，不做 UTC 或北京时间换算。单天包含全天；结束日期转次日边界。月度按明细日期归属，不用发票最早日期搬移全张金额。只使用明确绝对日期；相对时间必须显式提供并记录 as_of_date，未提供则澄清。原始覆盖2009-12-01至2011-12-09；可完整比较的自然月为2009-12至2011-11。这里“完整月”只表示日历覆盖，不保证每天有交易。2011-12属于不完整月，不默认与整月环比；任意用户显式指定区间仍可查询并披露覆盖限制。"
+    },
+    "P02": {
+      "name": "月环比规则",
+      "aliases": [
+        "销售额环比",
+        "销量环比"
+      ],
+      "definition": "先按所选指标自身口径计算本月x和紧邻上一个自然月y，再计算(x-y)/y。要求两个完整月份均在快照覆盖内，且比较同一指标、同一维度。上月y为0或NULL、月份缺失时返回NULL并说明不可定义，不能跳到最近有值月份。当前月SUM为空时仍为NULL，计数指标无匹配为0；不统一补零。仅适用于非负销售金额、数量、发票数和客户数，不默认对有符号金额计算环比。"
+    },
+    "P03": {
+      "name": "分组份额与排名规则",
+      "aliases": [
+        "商品销售额占比",
+        "国家销售额占比",
+        "销售额排名"
+      ],
+      "definition": "商品按stock_code分组，国家按明细country分组；description仅用于展示且不得造成商品重复。金额占比=组内销售额/同期间同外层过滤条件下全部销售额；分母保留外层过滤，移除当前分组自身选择（包括Top N截断），不取Top N金额之和。country缺失保留NULL组。份额比较使用完整精度；Top N默认按指标降序、分组键二进制升序打破并列，返回恰好N行（不足则全部）；用户明确含并列则用排名语义。发票数、客户数可跨商品/国家重复，不能把分组去重数相加当全局总数。"
+    },
+    "P04": {
+      "name": "歧义与数据能力边界",
+      "aliases": [
+        "指标澄清规则"
+      ],
+      "definition": "客单价必须澄清按订单还是客户；成交额/GMV必须澄清是否采用本场景销售额且不能暗示支付完成；复购率必须澄清期间内复购还是跨期再次购买；净销售额/退款额/退货率不得默认解释。仅在上下文已明确口径时沿用。没有支付、发货、利润成本、注册事件、会话访问、营销曝光、商品分类数据，不支持支付成功率、履约率、利润、注册转化、DAU、获客成本或分类销售额；不要从首次出现时间推断注册。缺少决定性条件时询问而不编造。"
+    },
+    "P05": {
+      "name": "数据与字段解释",
+      "aliases": [
+        "零售数据字典"
+      ],
+      "definition": "transaction_lines一行对应原工作表一条记录，以line_id或source_sheet+source_row追溯；不去重。invoice_no和stock_code/customer_id都是字符串标识，不能做数值强转。is_cancelled=1仅表示发票号C前缀，非支付或履约状态。line_amount=quantity*unit_price为GBP有符号金额。customers.first_observed_at只是快照内首次出现时间；products不保证商品名称唯一或价格固定。invoices为全范围原始汇总，不能直接当有效销售金额。country取记录上的交易国家，不作为客户永久居住国。 本版本不按StockCode排除邮费、手工收费或其他特殊编码；销售额是约定有效行的金额，售出商品种数是源编码种数，不能声称纯实物商品收入或分类SKU数。"
+    },
+    "P06": {
+      "name": "空值精度与证据规则",
+      "aliases": [
+        "空结果规则",
+        "金额精度"
+      ],
+      "definition": "过滤后无行：COUNT为0，SUM为NULL，AVG/比率为NULL；NULL不是0。金额内部保留DECIMAL六位，计算与比较前不按展示小数提前舍入；一般金额展示两位GBP，百分比仅在展示时乘100。源数据重复行仍保留；缺失描述不排除销售。知识定义只证明口径，不能证明查询数值。最终结论必须使用真实执行结果，不填造缺失月份、原因、退款匹配或数据质量结论。"
+    }
+  }
+}

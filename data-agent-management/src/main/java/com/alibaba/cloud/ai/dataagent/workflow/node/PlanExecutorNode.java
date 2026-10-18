@@ -97,6 +97,9 @@ public class PlanExecutorNode implements NodeAction {
 		// Get current step and determine next node
 		ExecutionStep executionStep = executionPlan.get(currentStep - 1);
 		String toolToUse = executionStep.getToolToUse();
+		if (REPORT_GENERATOR_NODE.equals(toolToUse) && com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.enabled(state.value(TRACE_THREAD_ID).orElse(null))) {
+			return Map.of(PLAN_NEXT_NODE, StateGraph.END, PLAN_VALIDATION_STATUS, true);
+		}
 
 		return determineNextNode(toolToUse);
 	}

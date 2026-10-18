@@ -19,7 +19,6 @@ import com.alibaba.cloud.ai.dataagent.bo.schema.DisplayStyleBO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.EvidenceQueryRewriteDTO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.FeasibilityAssessmentOutputDTO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.IntentRecognitionOutputDTO;
-import com.alibaba.cloud.ai.dataagent.dto.prompt.QueryEnhanceOutputDTO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.SemanticConsistencyDTO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.SemanticConsistencyOutputDTO;
 import com.alibaba.cloud.ai.dataagent.dto.prompt.SqlGenerationDTO;
@@ -264,8 +263,8 @@ public class PromptHelper {
 		else
 			params.put("evidence", evidence);
 		params.put("current_time_info", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-		BeanOutputConverter<QueryEnhanceOutputDTO> beanOutputConverter = new BeanOutputConverter<>(
-				QueryEnhanceOutputDTO.class);
+		BeanOutputConverter<com.alibaba.cloud.ai.dataagent.dto.prompt.CanonicalQueryOutputDTO> beanOutputConverter = new BeanOutputConverter<>(
+				com.alibaba.cloud.ai.dataagent.dto.prompt.CanonicalQueryOutputDTO.class);
 		params.put("format", beanOutputConverter.getFormat());
 		return PromptConstant.getQueryEnhancementPromptTemplate().render(params);
 	}

@@ -28,6 +28,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GraphNodeResponse {
 
+	private java.util.Map<String, Object> evaluation;
+
 	private String agentId;
 
 	private String threadId;

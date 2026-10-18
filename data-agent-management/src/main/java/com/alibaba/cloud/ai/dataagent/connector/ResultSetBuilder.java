@@ -45,7 +45,7 @@ public class ResultSetBuilder {
 		while (rs.next() && count < SqlExecutor.RESULT_SET_LIMIT) {
 			Map<String, String> kv = new HashMap<>();
 			for (String h : rowHead) {
-				kv.put(h, rs.getString(h) == null ? "" : rs.getString(h));
+				kv.put(h, rs.getString(h));
 			}
 			resultSetData.add(kv);
 			count++;

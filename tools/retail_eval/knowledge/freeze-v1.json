@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "frozen_on": "2026-10-17",
+  "database": "retail_eval_v1",
+  "files_sha256": {
+    "contract-v1.json": "7878c20de63cef93ee71e189aaa5abcb30c77190c3fc91639bf5eaef219f0218",
+    "rag-documents-v1.json": "dfba8d4bbac86d3f27337779f5ba187345409630ff05f3068f55ce3c35d75ba8",
+    "指标字典-v1.md": "a355cd57bfc6c321a2527d80ec3d4ffbc658baba4ada7d8b0291316f282418e5",
+    "README.md": "cb214a1cbf16d2db7d8606f417b025d0e7d8ae22244924d414cae18f92044ba1",
+    "../knowledge.py": "7a80d9facc5dc17fa8388a7f0cb5ee3652442a1a83be91a8508b501fd7d7b3d1",
+    "../validate_knowledge.py": "9e97b501e3cd47e8d51f6eb093dc5b15c907973c7789a52b0b287e3709bceb1e",
+    "../test_knowledge.py": "0b5ed515fa4f33e19c04f6dde5ace7dc66e8852ced128b6631a0e41a53437d35"
+  },
+  "change_policy": "Publish a new version and rerun verification for semantic changes."
+}

@@ -1,0 +1,519 @@
+# 正式集 v1.0.0
+
+固定模板生成题，ID与JSONL一致。参考答案保存在本地私有目录。
+
+
+## 业务范围与取消口径
+
+- `test_scope_sales_amount_01`：请统计2010年01月的销售额。返回一个数值。
+- `test_scope_sales_amount_02`：请统计2010年02月、国家为United Kingdom的销售额。返回一个数值。
+- `test_scope_sales_amount_03`：请统计2010年03月、国家为Germany的销售额。返回一个数值。
+- `test_scope_sales_amount_04`：请统计2010年04月、国家为France的销售额。返回一个数值。
+- `test_scope_sales_amount_05`：请统计2010年05月的销售额。返回一个数值。
+- `test_scope_sales_amount_06`：请统计2010年06月的销售额。返回一个数值。
+- `test_scope_sales_amount_07`：请统计2010年07月、国家为United Kingdom的销售额。返回一个数值。
+- `test_scope_sales_amount_08`：请统计2010年08月、国家为Germany的销售额。返回一个数值。
+- `test_scope_sales_amount_09`：请统计2010年09月、国家为France的销售额。返回一个数值。
+- `test_scope_sales_amount_10`：请统计2010年10月的销售额。返回一个数值。
+- `test_scope_sales_amount_11`：请统计2010年11月的销售额。返回一个数值。
+- `test_scope_sales_amount_12`：请统计2010年12月、国家为United Kingdom的销售额。返回一个数值。
+- `test_scope_sales_amount_13`：请统计2011年01月、国家为Germany的销售额。返回一个数值。
+- `test_scope_sales_amount_14`：请统计2011年02月、国家为France的销售额。返回一个数值。
+- `test_scope_sales_amount_15`：请统计2011年03月的销售额。返回一个数值。
+- `test_scope_sales_amount_16`：请统计2011年04月的销售额。返回一个数值。
+- `test_scope_sales_amount_17`：请统计2011年05月、国家为United Kingdom的销售额。返回一个数值。
+- `test_scope_sales_amount_18`：请统计2011年06月、国家为Germany的销售额。返回一个数值。
+- `test_scope_sales_amount_19`：请统计2011年07月、国家为France的销售额。返回一个数值。
+- `test_scope_sales_amount_20`：请统计2011年08月的销售额。返回一个数值。
+- `test_scope_sales_units_01`：请统计2010年01月的销售数量。返回一个数值。
+- `test_scope_sales_units_02`：请统计2010年02月、国家为United Kingdom的销售数量。返回一个数值。
+- `test_scope_sales_units_03`：请统计2010年03月、国家为Germany的销售数量。返回一个数值。
+- `test_scope_sales_units_04`：请统计2010年04月、国家为France的销售数量。返回一个数值。
+- `test_scope_sales_units_05`：请统计2010年05月的销售数量。返回一个数值。
+- `test_scope_sales_units_06`：请统计2010年06月的销售数量。返回一个数值。
+- `test_scope_sales_units_07`：请统计2010年07月、国家为United Kingdom的销售数量。返回一个数值。
+- `test_scope_sales_units_08`：请统计2010年08月、国家为Germany的销售数量。返回一个数值。
+- `test_scope_sales_units_09`：请统计2010年09月、国家为France的销售数量。返回一个数值。
+- `test_scope_sales_units_10`：请统计2010年10月的销售数量。返回一个数值。
+- `test_scope_sales_units_11`：请统计2010年11月的销售数量。返回一个数值。
+- `test_scope_sales_units_12`：请统计2010年12月、国家为United Kingdom的销售数量。返回一个数值。
+- `test_scope_sales_units_13`：请统计2011年01月、国家为Germany的销售数量。返回一个数值。
+- `test_scope_sales_units_14`：请统计2011年02月、国家为France的销售数量。返回一个数值。
+- `test_scope_sales_units_15`：请统计2011年03月的销售数量。返回一个数值。
+- `test_scope_sales_units_16`：请统计2011年04月的销售数量。返回一个数值。
+- `test_scope_sales_units_17`：请统计2011年05月、国家为United Kingdom的销售数量。返回一个数值。
+- `test_scope_sales_units_18`：请统计2011年06月、国家为Germany的销售数量。返回一个数值。
+- `test_scope_sales_units_19`：请统计2011年07月、国家为France的销售数量。返回一个数值。
+- `test_scope_sales_units_20`：请统计2011年08月的销售数量。返回一个数值。
+- `test_scope_sales_lines_01`：请统计2010年01月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_02`：请统计2010年02月、国家为United Kingdom的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_03`：请统计2010年03月、国家为Germany的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_04`：请统计2010年04月、国家为France的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_05`：请统计2010年05月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_06`：请统计2010年06月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_07`：请统计2010年07月、国家为United Kingdom的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_08`：请统计2010年08月、国家为Germany的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_09`：请统计2010年09月、国家为France的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_10`：请统计2010年10月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_11`：请统计2010年11月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_12`：请统计2010年12月、国家为United Kingdom的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_13`：请统计2011年01月、国家为Germany的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_14`：请统计2011年02月、国家为France的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_15`：请统计2011年03月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_16`：请统计2011年04月的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_17`：请统计2011年05月、国家为United Kingdom的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_18`：请统计2011年06月、国家为Germany的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_19`：请统计2011年07月、国家为France的有效销售明细数。返回一个数值。
+- `test_scope_sales_lines_20`：请统计2011年08月的有效销售明细数。返回一个数值。
+- `test_scope_cancel_invoices_01`：请统计2010年01月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_02`：请统计2010年02月、国家为United Kingdom的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_03`：请统计2010年03月、国家为Germany的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_04`：请统计2010年04月、国家为France的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_05`：请统计2010年05月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_06`：请统计2010年06月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_07`：请统计2010年07月、国家为United Kingdom的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_08`：请统计2010年08月、国家为Germany的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_09`：请统计2010年09月、国家为France的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_10`：请统计2010年10月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_11`：请统计2010年11月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_12`：请统计2010年12月、国家为United Kingdom的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_13`：请统计2011年01月、国家为Germany的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_14`：请统计2011年02月、国家为France的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_15`：请统计2011年03月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_16`：请统计2011年04月的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_17`：请统计2011年05月、国家为United Kingdom的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_18`：请统计2011年06月、国家为Germany的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_19`：请统计2011年07月、国家为France的取消发票数。返回一个数值。
+- `test_scope_cancel_invoices_20`：请统计2011年08月的取消发票数。返回一个数值。
+- `test_scope_cancel_signed_01`：请统计2010年01月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_02`：请统计2010年02月、国家为United Kingdom的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_03`：请统计2010年03月、国家为Germany的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_04`：请统计2010年04月、国家为France的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_05`：请统计2010年05月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_06`：请统计2010年06月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_07`：请统计2010年07月、国家为United Kingdom的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_08`：请统计2010年08月、国家为Germany的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_09`：请统计2010年09月、国家为France的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_10`：请统计2010年10月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_11`：请统计2010年11月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_12`：请统计2010年12月、国家为United Kingdom的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_13`：请统计2011年01月、国家为Germany的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_14`：请统计2011年02月、国家为France的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_15`：请统计2011年03月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_16`：请统计2011年04月的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_17`：请统计2011年05月、国家为United Kingdom的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_18`：请统计2011年06月、国家为Germany的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_19`：请统计2011年07月、国家为France的取消记录有符号金额。返回一个数值。
+- `test_scope_cancel_signed_20`：请统计2011年08月的取消记录有符号金额。返回一个数值。
+
+## 指标分母与比率
+
+- `test_denominator_average_invoice_01`：请统计2010年01月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_02`：请统计2010年02月、国家为United Kingdom的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_03`：请统计2010年03月、国家为Germany的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_04`：请统计2010年04月、国家为France的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_05`：请统计2010年05月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_06`：请统计2010年06月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_07`：请统计2010年07月、国家为United Kingdom的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_08`：请统计2010年08月、国家为Germany的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_09`：请统计2010年09月、国家为France的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_10`：请统计2010年10月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_11`：请统计2010年11月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_12`：请统计2010年12月、国家为United Kingdom的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_13`：请统计2011年01月、国家为Germany的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_14`：请统计2011年02月、国家为France的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_15`：请统计2011年03月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_16`：请统计2011年04月的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_17`：请统计2011年05月、国家为United Kingdom的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_18`：请统计2011年06月、国家为Germany的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_19`：请统计2011年07月、国家为France的平均订单金额。返回一个数值。
+- `test_denominator_average_invoice_20`：请统计2011年08月的平均订单金额。返回一个数值。
+- `test_denominator_per_buyer_01`：请统计2010年01月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_02`：请统计2010年02月、国家为United Kingdom的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_03`：请统计2010年03月、国家为Germany的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_04`：请统计2010年04月、国家为France的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_05`：请统计2010年05月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_06`：请统计2010年06月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_07`：请统计2010年07月、国家为United Kingdom的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_08`：请统计2010年08月、国家为Germany的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_09`：请统计2010年09月、国家为France的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_10`：请统计2010年10月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_11`：请统计2010年11月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_12`：请统计2010年12月、国家为United Kingdom的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_13`：请统计2011年01月、国家为Germany的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_14`：请统计2011年02月、国家为France的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_15`：请统计2011年03月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_16`：请统计2011年04月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_17`：请统计2011年05月、国家为United Kingdom的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_18`：请统计2011年06月、国家为Germany的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_19`：请统计2011年07月、国家为France的每购买客户平均销售额。返回一个数值。
+- `test_denominator_per_buyer_20`：请统计2011年08月的每购买客户平均销售额。返回一个数值。
+- `test_denominator_repeat_rate_01`：请统计2010年01月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_02`：请统计2010年02月、国家为United Kingdom的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_03`：请统计2010年03月、国家为Germany的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_04`：请统计2010年04月、国家为France的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_05`：请统计2010年05月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_06`：请统计2010年06月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_07`：请统计2010年07月、国家为United Kingdom的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_08`：请统计2010年08月、国家为Germany的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_09`：请统计2010年09月、国家为France的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_10`：请统计2010年10月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_11`：请统计2010年11月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_12`：请统计2010年12月、国家为United Kingdom的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_13`：请统计2011年01月、国家为Germany的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_14`：请统计2011年02月、国家为France的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_15`：请统计2011年03月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_16`：请统计2011年04月的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_17`：请统计2011年05月、国家为United Kingdom的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_18`：请统计2011年06月、国家为Germany的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_19`：请统计2011年07月、国家为France的期间复购客户占比。返回一个数值。
+- `test_denominator_repeat_rate_20`：请统计2011年08月的期间复购客户占比。返回一个数值。
+- `test_denominator_weighted_price_01`：请统计2010年01月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_02`：请统计2010年02月、国家为United Kingdom的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_03`：请统计2010年03月、国家为Germany的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_04`：请统计2010年04月、国家为France的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_05`：请统计2010年05月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_06`：请统计2010年06月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_07`：请统计2010年07月、国家为United Kingdom的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_08`：请统计2010年08月、国家为Germany的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_09`：请统计2010年09月、国家为France的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_10`：请统计2010年10月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_11`：请统计2010年11月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_12`：请统计2010年12月、国家为United Kingdom的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_13`：请统计2011年01月、国家为Germany的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_14`：请统计2011年02月、国家为France的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_15`：请统计2011年03月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_16`：请统计2011年04月的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_17`：请统计2011年05月、国家为United Kingdom的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_18`：请统计2011年06月、国家为Germany的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_19`：请统计2011年07月、国家为France的加权销售单价。返回一个数值。
+- `test_denominator_weighted_price_20`：请统计2011年08月的加权销售单价。返回一个数值。
+- `test_denominator_known_share_01`：请统计2010年01月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_02`：请统计2010年02月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_03`：请统计2010年03月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_04`：请统计2010年04月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_05`：请统计2010年05月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_06`：请统计2010年06月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_07`：请统计2010年07月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_08`：请统计2010年08月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_09`：请统计2010年09月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_10`：请统计2010年10月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_11`：请统计2010年11月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_12`：请统计2010年12月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_13`：请统计2011年01月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_14`：请统计2011年02月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_15`：请统计2011年03月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_16`：请统计2011年04月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_17`：请统计2011年05月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_18`：请统计2011年06月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_19`：请统计2011年07月的已识别客户销售额占比。返回一个数值。
+- `test_denominator_known_share_20`：请统计2011年08月的已识别客户销售额占比。返回一个数值。
+
+## 时间边界与月度比较
+
+- `test_time_daily_sales_01`：请按日统计2010-01-30至2010-02-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_02`：请按日统计2010-02-27至2010-03-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_03`：请按日统计2010-03-30至2010-04-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_04`：请按日统计2010-04-29至2010-05-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_05`：请按日统计2010-05-30至2010-06-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_06`：请按日统计2010-06-29至2010-07-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_07`：请按日统计2010-07-30至2010-08-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_08`：请按日统计2010-08-30至2010-09-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_09`：请按日统计2010-09-29至2010-10-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_10`：请按日统计2010-10-30至2010-11-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_11`：请按日统计2010-11-29至2010-12-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_12`：请按日统计2010-12-30至2011-01-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_13`：请按日统计2011-01-30至2011-02-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_14`：请按日统计2011-02-27至2011-03-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_15`：请按日统计2011-03-30至2011-04-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_16`：请按日统计2011-04-29至2011-05-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_17`：请按日统计2011-05-30至2011-06-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_18`：请按日统计2011-06-29至2011-07-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_19`：请按日统计2011-07-30至2011-08-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_daily_sales_20`：请按日统计2011-08-30至2011-09-02（含结束日）的销售额，只返回有原始记录的日期，按日期升序。
+- `test_time_monthly_sales_01`：请按月统计2010-01-01至2010-02-28（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_02`：请按月统计2010-02-01至2010-03-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_03`：请按月统计2010-03-01至2010-04-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_04`：请按月统计2010-04-01至2010-05-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_05`：请按月统计2010-05-01至2010-06-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_06`：请按月统计2010-06-01至2010-07-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_07`：请按月统计2010-07-01至2010-08-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_08`：请按月统计2010-08-01至2010-09-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_09`：请按月统计2010-09-01至2010-10-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_10`：请按月统计2010-10-01至2010-11-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_11`：请按月统计2010-11-01至2010-12-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_12`：请按月统计2010-12-01至2011-01-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_13`：请按月统计2011-01-01至2011-02-28（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_14`：请按月统计2011-02-01至2011-03-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_15`：请按月统计2011-03-01至2011-04-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_16`：请按月统计2011-04-01至2011-05-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_17`：请按月统计2011-05-01至2011-06-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_18`：请按月统计2011-06-01至2011-07-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_19`：请按月统计2011-07-01至2011-08-31（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_sales_20`：请按月统计2011-08-01至2011-09-30（含结束日）的销售额，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_01`：请按月统计2010-01-01至2010-02-28（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_02`：请按月统计2010-02-01至2010-03-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_03`：请按月统计2010-03-01至2010-04-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_04`：请按月统计2010-04-01至2010-05-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_05`：请按月统计2010-05-01至2010-06-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_06`：请按月统计2010-06-01至2010-07-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_07`：请按月统计2010-07-01至2010-08-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_08`：请按月统计2010-08-01至2010-09-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_09`：请按月统计2010-09-01至2010-10-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_10`：请按月统计2010-10-01至2010-11-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_11`：请按月统计2010-11-01至2010-12-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_12`：请按月统计2010-12-01至2011-01-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_13`：请按月统计2011-01-01至2011-02-28（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_14`：请按月统计2011-02-01至2011-03-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_15`：请按月统计2011-03-01至2011-04-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_16`：请按月统计2011-04-01至2011-05-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_17`：请按月统计2011-05-01至2011-06-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_18`：请按月统计2011-06-01至2011-07-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_19`：请按月统计2011-07-01至2011-08-31（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_invoice_20`：请按月统计2011-08-01至2011-09-30（含结束日）的销售发票数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_01`：请按月统计2010-01-01至2010-02-28（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_02`：请按月统计2010-02-01至2010-03-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_03`：请按月统计2010-03-01至2010-04-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_04`：请按月统计2010-04-01至2010-05-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_05`：请按月统计2010-05-01至2010-06-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_06`：请按月统计2010-06-01至2010-07-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_07`：请按月统计2010-07-01至2010-08-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_08`：请按月统计2010-08-01至2010-09-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_09`：请按月统计2010-09-01至2010-10-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_10`：请按月统计2010-10-01至2010-11-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_11`：请按月统计2010-11-01至2010-12-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_12`：请按月统计2010-12-01至2011-01-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_13`：请按月统计2011-01-01至2011-02-28（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_14`：请按月统计2011-02-01至2011-03-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_15`：请按月统计2011-03-01至2011-04-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_16`：请按月统计2011-04-01至2011-05-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_17`：请按月统计2011-05-01至2011-06-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_18`：请按月统计2011-06-01至2011-07-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_19`：请按月统计2011-07-01至2011-08-31（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_buyer_20`：请按月统计2011-08-01至2011-09-30（含结束日）的购买客户数，只返回有原始记录的月份，按月份升序。
+- `test_time_monthly_mom_01`：请计算2010年01月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_02`：请计算2010年02月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_03`：请计算2010年03月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_04`：请计算2010年04月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_05`：请计算2010年05月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_06`：请计算2010年06月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_07`：请计算2010年07月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_08`：请计算2010年08月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_09`：请计算2010年09月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_10`：请计算2010年10月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_11`：请计算2010年11月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_12`：请计算2010年12月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_13`：请计算2011年01月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_14`：请计算2011年02月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_15`：请计算2011年03月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_16`：请计算2011年04月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_17`：请计算2011年05月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_18`：请计算2011年06月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_19`：请计算2011年07月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+- `test_time_monthly_mom_20`：请计算2011年08月销售额相对于上一个完整自然月的环比，返回本月金额、上月金额和环比比值。
+
+## 去重与分组粒度
+
+- `test_grain_distinct_invoice_01`：请统计2010年01月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_02`：请统计2010年02月、国家为United Kingdom的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_03`：请统计2010年03月、国家为Germany的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_04`：请统计2010年04月、国家为France的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_05`：请统计2010年05月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_06`：请统计2010年06月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_07`：请统计2010年07月、国家为United Kingdom的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_08`：请统计2010年08月、国家为Germany的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_09`：请统计2010年09月、国家为France的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_10`：请统计2010年10月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_11`：请统计2010年11月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_12`：请统计2010年12月、国家为United Kingdom的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_13`：请统计2011年01月、国家为Germany的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_14`：请统计2011年02月、国家为France的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_15`：请统计2011年03月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_16`：请统计2011年04月的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_17`：请统计2011年05月、国家为United Kingdom的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_18`：请统计2011年06月、国家为Germany的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_19`：请统计2011年07月、国家为France的销售发票数。返回一个数值。
+- `test_grain_distinct_invoice_20`：请统计2011年08月的销售发票数。返回一个数值。
+- `test_grain_distinct_buyer_01`：请统计2010年01月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_02`：请统计2010年02月、国家为United Kingdom的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_03`：请统计2010年03月、国家为Germany的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_04`：请统计2010年04月、国家为France的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_05`：请统计2010年05月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_06`：请统计2010年06月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_07`：请统计2010年07月、国家为United Kingdom的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_08`：请统计2010年08月、国家为Germany的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_09`：请统计2010年09月、国家为France的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_10`：请统计2010年10月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_11`：请统计2010年11月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_12`：请统计2010年12月、国家为United Kingdom的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_13`：请统计2011年01月、国家为Germany的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_14`：请统计2011年02月、国家为France的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_15`：请统计2011年03月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_16`：请统计2011年04月的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_17`：请统计2011年05月、国家为United Kingdom的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_18`：请统计2011年06月、国家为Germany的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_19`：请统计2011年07月、国家为France的购买客户数。返回一个数值。
+- `test_grain_distinct_buyer_20`：请统计2011年08月的购买客户数。返回一个数值。
+- `test_grain_repeat_buyer_01`：请统计2010年01月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_02`：请统计2010年02月、国家为United Kingdom的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_03`：请统计2010年03月、国家为Germany的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_04`：请统计2010年04月、国家为France的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_05`：请统计2010年05月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_06`：请统计2010年06月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_07`：请统计2010年07月、国家为United Kingdom的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_08`：请统计2010年08月、国家为Germany的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_09`：请统计2010年09月、国家为France的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_10`：请统计2010年10月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_11`：请统计2010年11月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_12`：请统计2010年12月、国家为United Kingdom的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_13`：请统计2011年01月、国家为Germany的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_14`：请统计2011年02月、国家为France的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_15`：请统计2011年03月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_16`：请统计2011年04月的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_17`：请统计2011年05月、国家为United Kingdom的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_18`：请统计2011年06月、国家为Germany的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_19`：请统计2011年07月、国家为France的期间复购客户数。返回一个数值。
+- `test_grain_repeat_buyer_20`：请统计2011年08月的期间复购客户数。返回一个数值。
+- `test_grain_distinct_sku_01`：请统计2010年01月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_02`：请统计2010年02月、国家为United Kingdom的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_03`：请统计2010年03月、国家为Germany的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_04`：请统计2010年04月、国家为France的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_05`：请统计2010年05月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_06`：请统计2010年06月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_07`：请统计2010年07月、国家为United Kingdom的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_08`：请统计2010年08月、国家为Germany的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_09`：请统计2010年09月、国家为France的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_10`：请统计2010年10月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_11`：请统计2010年11月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_12`：请统计2010年12月、国家为United Kingdom的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_13`：请统计2011年01月、国家为Germany的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_14`：请统计2011年02月、国家为France的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_15`：请统计2011年03月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_16`：请统计2011年04月的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_17`：请统计2011年05月、国家为United Kingdom的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_18`：请统计2011年06月、国家为Germany的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_19`：请统计2011年07月、国家为France的售出商品种数。返回一个数值。
+- `test_grain_distinct_sku_20`：请统计2011年08月的售出商品种数。返回一个数值。
+- `test_grain_country_share_01`：请列出2010年01月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_02`：请列出2010年02月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_03`：请列出2010年03月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_04`：请列出2010年04月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_05`：请列出2010年05月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_06`：请列出2010年06月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_07`：请列出2010年07月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_08`：请列出2010年08月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_09`：请列出2010年09月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_10`：请列出2010年10月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_11`：请列出2010年11月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_12`：请列出2010年12月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_13`：请列出2011年01月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_14`：请列出2011年02月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_15`：请列出2011年03月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_16`：请列出2011年04月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_17`：请列出2011年05月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_18`：请列出2011年06月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_19`：请列出2011年07月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+- `test_grain_country_share_20`：请列出2011年08月销售额最高的10个国家，并给出各自销售额和占同月全部国家销售额的比值。并列按country二进制升序，输出恰好10行，不足则全部。
+
+## 基础查询控制组
+
+- `test_basic_raw_count_01`：请查询2010年01月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_02`：请查询2010年02月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_03`：请查询2010年03月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_04`：请查询2010年04月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_05`：请查询2010年05月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_06`：请查询2010年06月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_07`：请查询2010年07月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_08`：请查询2010年08月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_09`：请查询2010年09月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_10`：请查询2010年10月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_11`：请查询2010年11月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_12`：请查询2010年12月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_13`：请查询2011年01月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_14`：请查询2011年02月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_15`：请查询2011年03月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_16`：请查询2011年04月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_17`：请查询2011年05月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_18`：请查询2011年06月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_19`：请查询2011年07月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_count_20`：请查询2011年08月的原始交易明细行数，不添加取消、数量、价格或客户过滤。返回一个数值。
+- `test_basic_raw_sum_01`：请查询2010年01月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_02`：请查询2010年02月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_03`：请查询2010年03月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_04`：请查询2010年04月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_05`：请查询2010年05月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_06`：请查询2010年06月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_07`：请查询2010年07月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_08`：请查询2010年08月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_09`：请查询2010年09月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_10`：请查询2010年10月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_11`：请查询2010年11月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_12`：请查询2010年12月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_13`：请查询2011年01月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_14`：请查询2011年02月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_15`：请查询2011年03月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_16`：请查询2011年04月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_17`：请查询2011年05月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_18`：请查询2011年06月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_19`：请查询2011年07月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_sum_20`：请查询2011年08月的全部原始明细的有符号金额之和，不排除任何记录。返回一个数值。
+- `test_basic_raw_countries_01`：请查询2010年01月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_02`：请查询2010年02月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_03`：请查询2010年03月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_04`：请查询2010年04月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_05`：请查询2010年05月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_06`：请查询2010年06月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_07`：请查询2010年07月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_08`：请查询2010年08月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_09`：请查询2010年09月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_10`：请查询2010年10月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_11`：请查询2010年11月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_12`：请查询2010年12月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_13`：请查询2011年01月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_14`：请查询2011年02月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_15`：请查询2011年03月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_16`：请查询2011年04月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_17`：请查询2011年05月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_18`：请查询2011年06月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_19`：请查询2011年07月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_countries_20`：请查询2011年08月的原始记录中非空country的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_01`：请查询2010年01月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_02`：请查询2010年02月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_03`：请查询2010年03月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_04`：请查询2010年04月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_05`：请查询2010年05月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_06`：请查询2010年06月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_07`：请查询2010年07月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_08`：请查询2010年08月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_09`：请查询2010年09月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_10`：请查询2010年10月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_11`：请查询2010年11月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_12`：请查询2010年12月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_13`：请查询2011年01月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_14`：请查询2011年02月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_15`：请查询2011年03月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_16`：请查询2011年04月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_17`：请查询2011年05月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_18`：请查询2011年06月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_19`：请查询2011年07月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_quantity_20`：请查询2011年08月的全部原始记录quantity之和，保留负数和零，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_01`：请查询2010年01月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_02`：请查询2010年02月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_03`：请查询2010年03月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_04`：请查询2010年04月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_05`：请查询2010年05月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_06`：请查询2010年06月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_07`：请查询2010年07月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_08`：请查询2010年08月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_09`：请查询2010年09月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_10`：请查询2010年10月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_11`：请查询2010年11月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_12`：请查询2010年12月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_13`：请查询2011年01月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_14`：请查询2011年02月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_15`：请查询2011年03月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_16`：请查询2011年04月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_17`：请查询2011年05月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_18`：请查询2011年06月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_19`：请查询2011年07月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。
+- `test_basic_raw_codes_20`：请查询2011年08月的原始记录stock_code的去重数量，不增加业务过滤。返回一个数值。

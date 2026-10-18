@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "source_rows": 1067371,
+  "contract_sha256": "7878c20de63cef93ee71e189aaa5abcb30c77190c3fc91639bf5eaef219f0218",
+  "sizes": {
+    "test": 500,
+    "dev": 50
+  },
+  "categories": {
+    "dev": {
+      "scope": 10,
+      "denominator": 10,
+      "grain": 10,
+      "time": 10,
+      "basic": 10
+    },
+    "test": {
+      "scope": 100,
+      "denominator": 100,
+      "grain": 100,
+      "time": 100,
+      "basic": 100
+    }
+  },
+  "template_families": {
+    "dev": 10,
+    "test": 25
+  },
+  "mutation_probes_passed": 500,
+  "description": "Template-derived custom commerce set; not 500 independent business scenarios. Not a BIRD score."
+}

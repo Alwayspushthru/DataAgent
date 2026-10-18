@@ -321,6 +321,8 @@ class PromptHelperTest {
 		String result = PromptHelper.buildQueryEnhancePrompt("history", "latest query", "some evidence");
 		assertNotNull(result);
 		assertTrue(result.contains("some evidence"));
+		assertEquals(result.indexOf("some evidence"), result.lastIndexOf("some evidence"));
+		assertFalse(result.contains("expanded_queries"));
 	}
 
 	@Test

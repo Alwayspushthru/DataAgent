@@ -20,6 +20,8 @@ package com.alibaba.cloud.ai.dataagent.constant;
  */
 public final class Constant {
 
+	public static final String BUSINESS_KNOWLEDGE_ENABLED = "business_knowledge_enabled";
+
 	private Constant() {
 
 	}

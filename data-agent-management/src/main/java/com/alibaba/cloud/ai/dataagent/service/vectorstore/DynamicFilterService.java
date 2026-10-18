@@ -74,9 +74,15 @@ public class DynamicFilterService {
 				}
 				else {
 					// 添加 ID 过滤
-					conditions
-						.add(b.in(DocumentMetadataConstant.DB_BUSINESS_TERM_ID, recalledBusinessKnowledgeIds.toArray())
-							.build());
+                    // SimpleVectorStore's IN uses collection membership: Long metadata
+                    // does not equal the converter's Integer literals. EQ comparisons
+                    // preserve numeric comparison across both runtime number types.
+                    Filter.Expression allowed = null;
+                    for (Long id : recalledBusinessKnowledgeIds) {
+                        Filter.Expression equality = b.eq(DocumentMetadataConstant.DB_BUSINESS_TERM_ID, id).build();
+                        allowed = allowed == null ? equality : new Filter.Expression(Filter.ExpressionType.OR, allowed, equality);
+                    }
+                    conditions.add(allowed);
 				}
 				break;
 

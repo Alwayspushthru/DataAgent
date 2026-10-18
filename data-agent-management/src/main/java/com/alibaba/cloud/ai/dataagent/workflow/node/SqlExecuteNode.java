@@ -153,6 +153,8 @@ public class SqlExecuteNode implements NodeAction {
 					chartUpdateResponses(state, executed.resultSet())))
 			.onErrorResume(e -> {
 				String errorMessage = e.getMessage();
+				com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.sql(
+					state.value(Constant.TRACE_THREAD_ID).orElse(null), currentStep, sqlQuery, null, errorMessage);
 				log.error("SQL execution failed - SQL as follows: \n {} \n ", sqlQuery, e);
 				result.put(SQL_REGENERATE_REASON, SqlRetryDto.sqlExecute(errorMessage));
 				return Flux.just(ChatResponseUtil.createResponse("SQL执行失败: " + errorMessage));
@@ -176,6 +178,8 @@ public class SqlExecuteNode implements NodeAction {
 			DbConfigBO dbConfig, DbQueryParameter dbQueryParameter, Accessor dbAccessor, Map<String, Object> result)
 			throws Exception {
 		ResultSetBO resultSetBO = dbAccessor.executeSqlAndReturnObject(dbConfig, dbQueryParameter);
+		com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.sql(
+				state.value(Constant.TRACE_THREAD_ID).orElse(null), currentStep, sqlQuery, resultSetBO, null);
 		String strResultSetJson = JsonUtil.getObjectMapper().writeValueAsString(resultSetBO);
 
 		result.put(SQL_REGENERATE_REASON, SqlRetryDto.empty());
@@ -228,7 +232,7 @@ public class SqlExecuteNode implements NodeAction {
 	}
 
 	private Mono<DisplayStyleBO> enrichResultSetWithChartConfig(OverAllState state, ResultSetBO resultSetBO) {
-		if (state.value(IS_ONLY_NL2SQL, false)) {
+		if (state.value(IS_ONLY_NL2SQL, false) || com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.enabled(state.value(Constant.TRACE_THREAD_ID).orElse(null))) {
 			log.debug("NL2SQL-only mode skips optional chart generation and uses table display");
 			return Mono.empty();
 		}

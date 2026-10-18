@@ -44,4 +44,9 @@ public class GraphRequest {
 
 	private boolean nl2sqlOnly;
 
+	@Builder.Default
+	private boolean businessKnowledgeEnabled = true;
+
+	private boolean evaluation;
+
 }

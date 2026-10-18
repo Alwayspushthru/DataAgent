@@ -1,0 +1,170 @@
+[
+  {
+    "knowledgeId": "M01",
+    "businessTerm": "原始明细数",
+    "description": "[retail-knowledge 1.0.0 / M01]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：原始明细数。全部源交易记录数，重复内容的源行仍分别计数。\n范围：期间内所有明细，不按取消标记、数量、单价、客户或描述缺失过滤；不可称成交或净收入。\n公式：COUNT(*)\n单位：行；空输入：0。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.line_id",
+    "synonyms": "源明细数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M02",
+    "businessTerm": "原始有符号金额",
+    "description": "[retail-knowledge 1.0.0 / M02]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：原始有符号金额。所有源行金额之和，允许为负；不推断退款归属或真实净收入。\n范围：期间内所有明细，不按取消标记、数量、单价、客户或描述缺失过滤；不可称成交或净收入。\n公式：SUM(line_amount)\n单位：GBP；空输入：NULL。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.line_amount",
+    "synonyms": "原始账面金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M03",
+    "businessTerm": "有效销售明细数",
+    "description": "[retail-knowledge 1.0.0 / M03]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：有效销售明细数。有效销售范围内的明细行数。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：COUNT(*)\n单位：行；空输入：0。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.line_id",
+    "synonyms": "销售明细数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M04",
+    "businessTerm": "销售额",
+    "description": "[retail-knowledge 1.0.0 / M04]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：销售额。有效销售明细的金额之和，包含无法归属客户的交易，不减去取消记录。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：SUM(line_amount)\n单位：GBP；空输入：NULL。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.line_amount",
+    "synonyms": "有效销售额,销售金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M05",
+    "businessTerm": "销售数量",
+    "description": "[retail-knowledge 1.0.0 / M05]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：销售数量。有效销售范围内的数量之和，不对源行去重。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：SUM(quantity)\n单位：件；空输入：NULL。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price",
+    "synonyms": "销量",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M06",
+    "businessTerm": "销售发票数",
+    "description": "[retail-knowledge 1.0.0 / M06]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：销售发票数。期间有至少一条有效销售明细的发票号去重数。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：COUNT(DISTINCT invoice_no)\n单位：张；空输入：0。\n以筛选后的明细计算，不用 invoices 全生命周期 total_amount；同发票多行只计一次。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.invoice_no",
+    "synonyms": "有效订单数,销售订单数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M07",
+    "businessTerm": "购买客户数",
+    "description": "[retail-knowledge 1.0.0 / M07]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：购买客户数。期间有效销售中非空客户 ID 的去重数量。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。\n公式：COUNT(DISTINCT customer_id)\n单位：人；空输入：0。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id",
+    "synonyms": "购买用户数,成交客户数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M08",
+    "businessTerm": "已识别客户销售额",
+    "description": "[retail-knowledge 1.0.0 / M08]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：已识别客户销售额。有效销售中具有已知客户 ID 的金额之和。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。\n公式：SUM(line_amount)\n单位：GBP；空输入：NULL。\n遵守共同时间与范围规则。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.line_amount",
+    "synonyms": "可归属客户销售额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M09",
+    "businessTerm": "平均订单金额",
+    "description": "[retail-knowledge 1.0.0 / M09]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：平均订单金额。销售额除以销售发票数，包含匿名销售。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：M04 / NULLIF(M06, 0)\n单位：GBP/张；空输入：NULL。\n不得使用 AVG(line_amount)，也不得把原始发票汇总金额当作期间有效销售金额。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.invoice_no, transaction_lines.line_amount\n依赖 销售额：SUM(line_amount)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。。\n依赖 销售发票数：COUNT(DISTINCT invoice_no)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。。",
+    "synonyms": "每张销售发票平均金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M10",
+    "businessTerm": "每购买客户平均销售额",
+    "description": "[retail-knowledge 1.0.0 / M10]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：每购买客户平均销售额。已识别客户销售额除以购买客户数；分子和分母使用相同客户范围。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。\n公式：M08 / NULLIF(M07, 0)\n单位：GBP/人；空输入：NULL。\n不能用包含匿名客户的总销售额除以已知客户数。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.line_amount\n依赖 购买客户数：COUNT(DISTINCT customer_id)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。。\n依赖 已识别客户销售额：SUM(line_amount)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。。",
+    "synonyms": "人均购买金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M11",
+    "businessTerm": "期间复购客户数",
+    "description": "[retail-knowledge 1.0.0 / M11]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：期间复购客户数。同一统计期间内，有效销售发票号去重数至少为 2 的已知客户数。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。\n公式：COUNT(customer_id WHERE COUNT(DISTINCT invoice_no) >= 2)\n单位：人；空输入：0。\n按客户分组后计算不同发票数，同一张发票多条明细不构成复购。\n只计算当前期间；不是历史购买者在本期再次购买，也不是留存率。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.invoice_no",
+    "synonyms": "期间重复购买客户数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M12",
+    "businessTerm": "期间复购客户占比",
+    "description": "[retail-knowledge 1.0.0 / M12]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：期间复购客户占比。期间复购客户数除以期间购买客户数。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。\n公式：M11 / NULLIF(M07, 0)\n单位：ratio [0,1]；空输入：NULL。\n返回比值；展示百分数时乘100，不对分母使用发票数。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.invoice_no\n依赖 购买客户数：COUNT(DISTINCT customer_id)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。。\n依赖 期间复购客户数：COUNT(customer_id WHERE COUNT(DISTINCT invoice_no) >= 2)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。。",
+    "synonyms": "期间复购率",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M13",
+    "businessTerm": "售出商品种数",
+    "description": "[retail-knowledge 1.0.0 / M13]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：售出商品种数。有效销售范围内商品编码的去重数。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：COUNT(DISTINCT stock_code)\n单位：种；空输入：0。\n以 stock_code 识别商品，不能按可能变化的 description 去重。\n本版本不剔除特殊费用编码，因此该值表示售出源商品编码种数，不保证全部是实物SKU。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.stock_code",
+    "synonyms": "售出SKU数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M14",
+    "businessTerm": "加权销售单价",
+    "description": "[retail-knowledge 1.0.0 / M14]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：加权销售单价。销售额除以销售数量，按数量加权。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：M04 / NULLIF(M05, 0)\n单位：GBP/件；空输入：NULL。\n不能使用 AVG(unit_price)。\n因特殊编码未排除，默认仅作相同定义下的比较，不宣称具有跨商品经济解释。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.line_amount\n依赖 销售额：SUM(line_amount)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。。\n依赖 销售数量：SUM(quantity)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。。",
+    "synonyms": "每件平均销售金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M15",
+    "businessTerm": "取消发票数",
+    "description": "[retail-knowledge 1.0.0 / M15]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：取消发票数。期间内有取消明细的 C 前缀发票号去重数。\n范围：期间内 is_cancelled=1 的全部明细，不按 quantity 或 unit_price 正负再过滤。\n公式：COUNT(DISTINCT invoice_no)\n单位：张；空输入：0。\n仅表示取消单据，不等于已匹配原订单的退款订单数；取消编号不能直接与原销售编号关联。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.invoice_no",
+    "synonyms": "取消单据数",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M16",
+    "businessTerm": "取消记录有符号金额",
+    "description": "[retail-knowledge 1.0.0 / M16]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：取消记录有符号金额。取消范围内的 line_amount 之和，保留正负号。\n范围：期间内 is_cancelled=1 的全部明细，不按 quantity 或 unit_price 正负再过滤。\n公式：SUM(line_amount)\n单位：GBP；空输入：NULL。\n不取绝对值，不称已支付退款额，不匹配原销售。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.line_amount",
+    "synonyms": "取消单据账面金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M17",
+    "businessTerm": "未识别客户销售额",
+    "description": "[retail-knowledge 1.0.0 / M17]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：未识别客户销售额。有效销售中客户 ID 为空或空白的金额之和。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：SUM(line_amount WHERE customer_id IS NULL OR TRIM(customer_id)='')\n单位：GBP；空输入：NULL。\n不为客户缺失行创建虚构客户，不用于客户去重或复购指标。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.line_amount",
+    "synonyms": "匿名销售金额",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "M18",
+    "businessTerm": "已识别客户销售额占比",
+    "description": "[retail-knowledge 1.0.0 / M18]\n本条是retail_eval_v1测试场景业务约定，不是UCI官方指标或真实支付结论。\n数据对象使用transaction_lines；期间按invoice_date >= start AND invoice_date < end；保留原始无时区时间，不平移。\n有效销售条件is_cancelled=0 AND quantity>0 AND unit_price>0；不排除描述或客户缺失，客户类指标另限定非空非空白customer_id。\n金额币种GBP，内部DECIMAL六位；无行COUNT=0、SUM=NULL，分母为0或NULL则比率NULL；按原始源行不去重。\n指标：已识别客户销售额占比。已识别客户销售额除以全部销售额；存在销售但没有已知客户时为0。\n范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。\n公式：COALESCE(M08, 0) / NULLIF(M04, 0)\n单位：ratio [0,1]；空输入：NULL。\n仅该分子在总销售额存在时允许将无匹配金额视为0；不得普遍把空 SUM 转0。\n所需字段：transaction_lines.invoice_date, transaction_lines.is_cancelled, transaction_lines.quantity, transaction_lines.unit_price, transaction_lines.customer_id, transaction_lines.line_amount\n依赖 销售额：SUM(line_amount)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0；描述缺失仍保留；客户缺失也保留。。\n依赖 已识别客户销售额：SUM(line_amount)；范围：期间内 is_cancelled=0 AND quantity>0 AND unit_price>0 AND customer_id IS NOT NULL AND TRIM(customer_id)<>''。。",
+    "synonyms": "客户金额可归属率",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P01",
+    "businessTerm": "时间与完整月份规则",
+    "description": "[retail-knowledge 1.0.0 / P01]\n所有期间使用 transaction_lines.invoice_date >= start AND invoice_date < end，按源端无时区本地墙上时间解释，不做 UTC 或北京时间换算。单天包含全天；结束日期转次日边界。月度按明细日期归属，不用发票最早日期搬移全张金额。只使用明确绝对日期；相对时间必须显式提供并记录 as_of_date，未提供则澄清。原始覆盖2009-12-01至2011-12-09；可完整比较的自然月为2009-12至2011-11。这里“完整月”只表示日历覆盖，不保证每天有交易。2011-12属于不完整月，不默认与整月环比；任意用户显式指定区间仍可查询并披露覆盖限制。",
+    "synonyms": "时间边界,自然月口径",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P02",
+    "businessTerm": "月环比规则",
+    "description": "[retail-knowledge 1.0.0 / P02]\n先按所选指标自身口径计算本月x和紧邻上一个自然月y，再计算(x-y)/y。要求两个完整月份均在快照覆盖内，且比较同一指标、同一维度。上月y为0或NULL、月份缺失时返回NULL并说明不可定义，不能跳到最近有值月份。当前月SUM为空时仍为NULL，计数指标无匹配为0；不统一补零。仅适用于非负销售金额、数量、发票数和客户数，不默认对有符号金额计算环比。",
+    "synonyms": "销售额环比,销量环比",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P03",
+    "businessTerm": "分组份额与排名规则",
+    "description": "[retail-knowledge 1.0.0 / P03]\n商品按stock_code分组，国家按明细country分组；description仅用于展示且不得造成商品重复。金额占比=组内销售额/同期间同外层过滤条件下全部销售额；分母保留外层过滤，移除当前分组自身选择（包括Top N截断），不取Top N金额之和。country缺失保留NULL组。份额比较使用完整精度；Top N默认按指标降序、分组键二进制升序打破并列，返回恰好N行（不足则全部）；用户明确含并列则用排名语义。发票数、客户数可跨商品/国家重复，不能把分组去重数相加当全局总数。",
+    "synonyms": "商品销售额占比,国家销售额占比,销售额排名",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P04",
+    "businessTerm": "歧义与数据能力边界",
+    "description": "[retail-knowledge 1.0.0 / P04]\n客单价必须澄清按订单还是客户；成交额/GMV必须澄清是否采用本场景销售额且不能暗示支付完成；复购率必须澄清期间内复购还是跨期再次购买；净销售额/退款额/退货率不得默认解释。仅在上下文已明确口径时沿用。没有支付、发货、利润成本、注册事件、会话访问、营销曝光、商品分类数据，不支持支付成功率、履约率、利润、注册转化、DAU、获客成本或分类销售额；不要从首次出现时间推断注册。缺少决定性条件时询问而不编造。",
+    "synonyms": "指标澄清规则",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P05",
+    "businessTerm": "数据与字段解释",
+    "description": "[retail-knowledge 1.0.0 / P05]\ntransaction_lines一行对应原工作表一条记录，以line_id或source_sheet+source_row追溯；不去重。invoice_no和stock_code/customer_id都是字符串标识，不能做数值强转。is_cancelled=1仅表示发票号C前缀，非支付或履约状态。line_amount=quantity*unit_price为GBP有符号金额。customers.first_observed_at只是快照内首次出现时间；products不保证商品名称唯一或价格固定。invoices为全范围原始汇总，不能直接当有效销售金额。country取记录上的交易国家，不作为客户永久居住国。 本版本不按StockCode排除邮费、手工收费或其他特殊编码；销售额是约定有效行的金额，售出商品种数是源编码种数，不能声称纯实物商品收入或分类SKU数。",
+    "synonyms": "零售数据字典",
+    "isRecall": true
+  },
+  {
+    "knowledgeId": "P06",
+    "businessTerm": "空值精度与证据规则",
+    "description": "[retail-knowledge 1.0.0 / P06]\n过滤后无行：COUNT为0，SUM为NULL，AVG/比率为NULL；NULL不是0。金额内部保留DECIMAL六位，计算与比较前不按展示小数提前舍入；一般金额展示两位GBP，百分比仅在展示时乘100。源数据重复行仍保留；缺失描述不排除销售。知识定义只证明口径，不能证明查询数值。最终结论必须使用真实执行结果，不填造缺失月份、原因、退款匹配或数据质量结论。",
+    "synonyms": "空结果规则,金额精度",
+    "isRecall": true
+  }
+]

@@ -16,6 +16,7 @@
 package com.alibaba.cloud.ai.dataagent.service.vectorstore;
 
 import com.alibaba.cloud.ai.dataagent.constant.DocumentMetadataConstant;
+import com.alibaba.cloud.ai.dataagent.support.KeywordEmbeddingModel;
 import com.alibaba.cloud.ai.dataagent.mapper.AgentKnowledgeMapper;
 import com.alibaba.cloud.ai.dataagent.mapper.BusinessKnowledgeMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +85,7 @@ class DynamicFilterServiceTest {
 
 		assertEquals(Filter.ExpressionType.AND, result.type());
 		assertFilterContains(result, "agentId", "1", "vectorType", DocumentMetadataConstant.BUSINESS_TERM,
-				DocumentMetadataConstant.DB_BUSINESS_TERM_ID, "[10, 20]");
+				DocumentMetadataConstant.DB_BUSINESS_TERM_ID, "10", "20");
 		verify(businessKnowledgeMapper).selectRecalledKnowledgeIds(1L);
 	}
 
@@ -257,5 +258,18 @@ class DynamicFilterServiceTest {
 			assertTrue(rendered.contains(expectedFragment), () -> "Missing '" + expectedFragment + "' in " + rendered);
 		}
 	}
+
+
+    @Test
+    void businessLongIdsMatchRealSimpleStoreWithoutLeakingOtherDocuments() {
+        when(businessKnowledgeMapper.selectRecalledKnowledgeIds(anyLong())).thenReturn(List.of(10L,20L));
+        MetadataAwareSimpleVectorStore store=new MetadataAwareSimpleVectorStore(new KeywordEmbeddingModel());
+        store.add(List.of(
+            new org.springframework.ai.document.Document("allowed",Map.of("agentId","1","vectorType","businessTerm","businessTermId",10L)),
+            new org.springframework.ai.document.Document("disabled",Map.of("agentId","1","vectorType","businessTerm","businessTermId",30L)),
+            new org.springframework.ai.document.Document("other agent",Map.of("agentId","2","vectorType","businessTerm","businessTermId",10L))));
+        var docs=store.findByFilter(dynamicFilterService.buildDynamicFilter("1",DocumentMetadataConstant.BUSINESS_TERM),10);
+        assertEquals(1,docs.size());assertEquals("allowed",docs.get(0).getText());
+    }
 
 }

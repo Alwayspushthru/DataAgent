@@ -158,6 +158,7 @@ public final class FluxUtil {
 		Usage usage = response.getMetadata().getUsage();
 		if (usage != null && (usage.getPromptTokens() > 0 || usage.getCompletionTokens() > 0)) {
 			LangfuseService.accumulateTokens(threadId, usage.getPromptTokens(), usage.getCompletionTokens());
+			com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.tokens(threadId, usage.getPromptTokens(), usage.getCompletionTokens());
 		}
 	}
 

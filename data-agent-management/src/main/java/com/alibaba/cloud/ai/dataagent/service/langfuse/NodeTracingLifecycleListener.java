@@ -93,6 +93,7 @@ public class NodeTracingLifecycleListener implements GraphLifecycleListener {
 	@Override
 	public void before(String nodeId, Map<String, Object> state, RunnableConfig config, Long curTime) {
 		String threadId = threadId(config);
+		com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.before(threadId, nodeId, state);
 		if (threadId == null) {
 			return;
 		}
@@ -141,6 +142,7 @@ public class NodeTracingLifecycleListener implements GraphLifecycleListener {
 
 	@Override
 	public void after(String nodeId, Map<String, Object> state, RunnableConfig config, Long curTime) {
+		com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.after(threadId(config), nodeId, state, null);
 		String threadId = threadId(config);
 		ActiveNode active = popActiveNode(threadId, nodeId);
 		if (active == null) {
@@ -172,6 +174,7 @@ public class NodeTracingLifecycleListener implements GraphLifecycleListener {
 
 	@Override
 	public void onError(String nodeId, Map<String, Object> state, Throwable ex, RunnableConfig config) {
+		com.alibaba.cloud.ai.dataagent.service.evaluation.EvaluationCapture.after(threadId(config), nodeId, state, ex);
 		String threadId = threadId(config);
 		ActiveNode active = popActiveNode(threadId, nodeId);
 		if (active == null) {
