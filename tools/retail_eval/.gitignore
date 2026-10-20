@@ -4,3 +4,4 @@ __pycache__/
 
 reports/*
 !reports/development-full-v2-summary-2026-10-18.md
+!reports/development-full-v3-summary-2026-10-20.md

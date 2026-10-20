@@ -54,6 +54,10 @@
    - Evidence 中与当前指标直接相关的明确定义应被满足；
    - Evidence 不得用于补造 Schema 中不存在的字段或无关条件。
 
+# 数值计算精度
+
+{numeric_precision_rules}
+
 # 判定与 reason
 
 - 仅当上述检查均通过时，`passed` 为 true。

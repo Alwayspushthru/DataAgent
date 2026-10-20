@@ -122,6 +122,7 @@ public class PromptHelper {
 		params.put("evidence", sqlGenerationDTO.getEvidence());
 		params.put("execution_description", sqlGenerationDTO.getExecutionDescription());
 		params.put("previous_step_results", StringUtils.defaultIfBlank(sqlGenerationDTO.getPreviousStepResults(), "无"));
+		params.put("numeric_precision_rules", PromptLoader.loadPrompt("sql-numeric-precision"));
 		return PromptConstant.getNewSqlGeneratorPromptTemplate().render(params);
 	}
 
@@ -133,6 +134,7 @@ public class PromptHelper {
 		params.put("evidence", semanticConsistencyDTO.getEvidence());
 		params.put("schema_info", semanticConsistencyDTO.getSchemaInfo());
 		params.put("sql", semanticConsistencyDTO.getSql());
+		params.put("numeric_precision_rules", PromptLoader.loadPrompt("sql-numeric-precision"));
 		BeanOutputConverter<SemanticConsistencyOutputDTO> beanOutputConverter = new BeanOutputConverter<>(
 				SemanticConsistencyOutputDTO.class);
 		params.put("format", beanOutputConverter.getFormat());
@@ -175,6 +177,7 @@ public class PromptHelper {
 		params.put("error_message", sqlGenerationDTO.getExceptionMessage());
 		params.put("execution_description", sqlGenerationDTO.getExecutionDescription());
 		params.put("previous_step_results", StringUtils.defaultIfBlank(sqlGenerationDTO.getPreviousStepResults(), "无"));
+		params.put("numeric_precision_rules", PromptLoader.loadPrompt("sql-numeric-precision"));
 
 		return PromptConstant.getSqlErrorFixerPromptTemplate().render(params);
 	}

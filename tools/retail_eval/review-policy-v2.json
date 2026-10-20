@@ -1,0 +1,16 @@
+{
+  "policy_id": "ai-accepted-with-manual-exceptions",
+  "version": "2.0.0",
+  "effective_date": "2026-10-19",
+  "authorization": "User explicitly accepts AI review conclusions except items the AI identifies as requiring human review.",
+  "accept_ai_pass": true,
+  "accept_ai_fail": true,
+  "accept_existing_execution_failure": true,
+  "human_review_required_only_for_explicit_exceptions": true,
+  "retain_ai_provenance": true,
+  "claim_human_verification": false,
+  "preserve_fixed_denominator": true,
+  "withhold_complete_accuracy_while_pending": true,
+  "overwrite_frozen_scoring_rules": false,
+  "overwrite_original_execution_or_scores": false
+}
