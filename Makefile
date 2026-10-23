@@ -17,6 +17,7 @@
 _run:
 	@$(MAKE) --warn-undefined-variables \
 		-f CI/make/common.mk \
+		-f CI/make/local.mk \
 		-f CI/make/java.mk \
 		-f CI/make/linter.mk \
 		-f CI/make/tools.mk \

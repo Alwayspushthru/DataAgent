@@ -76,7 +76,26 @@
 ### 2. 已初始化的本机环境：日常启动
 
 本机已配置为 Docker MySQL + 本机 Java 后端 + Nuxt 前端。先打开 Docker Desktop，
-在项目根目录启动已有数据库容器：
+然后在项目根目录执行一条命令：
+
+```bash
+make start
+```
+
+该命令启动已有的 `dataagent-local-mysql` 容器，等待 MySQL 就绪后同时启动后端
+（端口 8065）和前端（端口 3000）。日志输出到当前终端，启动完成后访问
+http://localhost:3000。保持终端运行，按 `Ctrl+C` 统一停止前后端；若其中一个
+进程退出，另一个也会自动关闭。MySQL 保持运行，需要停止时执行：
+
+```bash
+make db-stop
+```
+
+容器名称不同时，可使用 `make start MYSQL_CONTAINER=你的容器名` 和
+`make db-stop MYSQL_CONTAINER=你的容器名`。该命令复用下方两个本机辅助脚本，
+要求已完成本机初始化并安装前端依赖。
+
+如需分别查看前后端日志，也可以继续手动启动。先启动已有数据库容器：
 
 ```bash
 docker start dataagent-local-mysql
